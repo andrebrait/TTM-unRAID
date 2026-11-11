@@ -4,7 +4,7 @@
 set -eu
 version=$1
 out=$(realpath "$2")
-[[ "$version" =~ ^[0-9]{4}\.[0-9]{2}\.[0-9]{2}[a-z]?$ ]] || { echo "invalid version: $version" >&2; exit 1; }
+[[ "$version" =~ ^[0-9]{4}\.[0-9]{2}\.[0-9]{2}(\.[0-9]+)?$ ]] || { echo "invalid version: $version" >&2; exit 1; }
 pkg="dwttm-${version}-x86_64-1"
 cd "$(dirname "$0")/.."
 # installpkg only runs install/doinst.sh when members are named like makepkg's ("install/...", not "./install/...").
