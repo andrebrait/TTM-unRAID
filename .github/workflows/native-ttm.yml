@@ -1,0 +1,135 @@
+name: Native tmux and reptyr packages
+
+on:
+  workflow_dispatch:
+    inputs:
+      publish:
+        description: Commit the verified packages and .md5 files to packages/ on the dispatched branch
+        type: boolean
+        default: false
+  push:
+    paths:
+      - .github/workflows/native-ttm.yml
+      - build/**
+
+permissions:
+  contents: read
+
+concurrency:
+  group: native-ttm-${{ github.ref }}
+
+# Never upload or cache the Unraid image or the extracted roots.
+env:
+  # Must equal the unraid-build-root action pin below; bootstrap/sandbox modules are reused from it.
+  NERDTOOLS_REF: 2c8cd4c41bc7f378b7fdba2bc20019aa52b5ca16
+
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          repository: andrebrait/unRAID-NerdTools
+          ref: ${{ env.NERDTOOLS_REF }}
+          path: .nerdtools
+          sparse-checkout: build
+          persist-credentials: false
+      - name: Read the build baseline pins
+        id: baseline
+        run: |
+          version=$(jq -r .build_target build/ttm.json)
+          jq -r --arg v "$version" '.targets[$v] | "version=\($v)\nurl=\(.url)\nsha256=\(.sha256)\nbzroot=\(.bzroot_sha256)"' build/ttm.json >> "$GITHUB_OUTPUT"
+      - name: Prepare private Unraid baseline and development roots
+        id: roots
+        uses: andrebrait/unRAID-NerdTools/build/unraid-build-root@2c8cd4c41bc7f378b7fdba2bc20019aa52b5ca16
+        with:
+          version: ${{ steps.baseline.outputs.version }}
+          url: ${{ steps.baseline.outputs.url }}
+          sha256: ${{ steps.baseline.outputs.sha256 }}
+          bzroot-sha256: ${{ steps.baseline.outputs.bzroot }}
+          toolchain-lock: build/locks/toolchain.json
+      - name: Configure mapped sandbox identities
+        run: |
+          sudo apt-get install --no-install-recommends --yes bubblewrap uidmap
+          sudo usermod --add-subuids 100000-165535 --add-subgids 100000-165535 root
+      - name: Build tmux and reptyr in the sandboxed development root (no network)
+        env:
+          DEVELOPMENT_ROOT: ${{ steps.roots.outputs.development-root }}
+        run: |
+          sudo NERDTOOLS="$PWD/.nerdtools" python3 build/ttm_build.py build \
+            --development-root "$DEVELOPMENT_ROOT" --out dist --work /tmp
+          sudo chown -R "$(id -u):$(id -g)" dist
+          cd dist
+          for package in *.txz; do md5sum "$package" > "$package.md5"; cat "$package.md5"; ls -l "$package"; done
+      - name: Compare file lists with the prebuilt packages being replaced
+        run: |
+          while read -r old new; do
+            echo "== $old -> $new"
+            tar -tJvf "packages/$old" | awk '{print $1, $NF}' | sort -k2 > /tmp/old.list
+            tar -tJvf "dist/$new" | awk '{print $1, $NF}' | sort -k2 > /tmp/new.list
+            diff -u /tmp/old.list /tmp/new.list || true
+          done <<'EOF'
+          tmux-3.5a-x86_64-1_slack15.1.txz tmux-3.5a-x86_64-1_andrebrait.txz
+          reptyr-0.10.0-x86_64-1_slack15.0.txz reptyr-0.10.0-x86_64-1_andrebrait.txz
+          EOF
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: ttm-packages
+          path: dist/
+          if-no-files-found: error
+
+  verify:
+    needs: build
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    strategy:
+      fail-fast: false
+      matrix:
+        unraid: ["7.3.4", "7.4.0"]
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          repository: andrebrait/unRAID-NerdTools
+          ref: ${{ env.NERDTOOLS_REF }}
+          path: .nerdtools
+          sparse-checkout: build
+          persist-credentials: false
+      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          name: ttm-packages
+          path: dist
+      - name: Install archive tools and configure mapped sandbox identities
+        run: |
+          sudo apt-get update
+          sudo apt-get install --no-install-recommends --yes cpio zstd xz-utils squashfs-tools bubblewrap uidmap
+          sudo usermod --add-subuids 100000-165535 --add-subgids 100000-165535 root
+      - name: Install with upgradepkg into the exact Unraid ${{ matrix.unraid }} root, resolve ELF dependencies, run the smoke commands and a detached tmux session
+        env:
+          UNRAID: ${{ matrix.unraid }}
+        run: |
+          sudo NERDTOOLS="$PWD/.nerdtools" python3 build/ttm_build.py verify \
+            --target "$UNRAID" --package-dir dist --work /tmp
+
+  publish:
+    needs: [build, verify]
+    if: github.event_name == 'workflow_dispatch' && inputs.publish
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          name: ttm-packages
+          path: packages
+      - uses: stefanzweifel/git-auto-commit-action@d0b01107b5db882071f96de5dd4b54961ea93f4c # v7.2.1
+        with:
+          commit_message: "build: add native tmux and reptyr packages"
+          file_pattern: "packages/*_andrebrait.txz packages/*_andrebrait.txz.md5"

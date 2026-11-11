@@ -1,0 +1,61 @@
+{
+  "packages": [
+    {
+      "name": "tmux",
+      "version": "3.5a",
+      "build": "1",
+      "tag": "_andrebrait",
+      "recipe": "build/recipes/tmux",
+      "script": "tmux.SlackBuild",
+      "input": {
+        "url": "https://github.com/tmux/tmux/releases/download/3.5a/tmux-3.5a.tar.gz",
+        "file": "tmux-3.5a.tar.gz",
+        "sha256": "16216bd0877170dfcc64157085ba9013610b12b082548c7c9542cc0103198951"
+      },
+      "smoke": [
+        [
+          "/usr/bin/tmux",
+          "-V"
+        ]
+      ],
+      "expect": "tmux 3.5a"
+    },
+    {
+      "name": "reptyr",
+      "version": "0.10.0",
+      "build": "1",
+      "tag": "_andrebrait",
+      "recipe": "build/recipes/reptyr",
+      "script": "reptyr.SlackBuild",
+      "input": {
+        "url": "https://github.com/nelhage/reptyr/archive/reptyr-0.10.0/reptyr-reptyr-0.10.0.tar.gz",
+        "file": "reptyr-reptyr-0.10.0.tar.gz",
+        "sha256": "c6ffbc34a511ac00d072219bda30699e51f2f4eb483cbae9e32e981d49e8b380"
+      },
+      "smoke": [
+        [
+          "/usr/local/bin/reptyr",
+          "-v"
+        ]
+      ],
+      "expect": "0.10.0"
+    }
+  ],
+  "session": {
+    "name": "ttm-ci",
+    "command": "tmux new-session -d -s ttm-ci && tmux list-sessions && tmux list-sessions | grep -q \"^ttm-ci:\"; status=$?; tmux kill-server; exit $status"
+  },
+  "build_target": "7.3.4",
+  "targets": {
+    "7.3.4": {
+      "url": "https://releases.unraid.net/dl/stable/7.3.4/ae8169459e2277e8d450b9a590c18f747dd8eaa50ebc54743a36cadd093cbfb8/unRAIDServer-7.3.4-x86_64.zip",
+      "sha256": "ba608638e743b323f4581e911fd07093158344010dab14bb19607b46999530e9",
+      "bzroot_sha256": "a960a948b56ad2e01b007a48980dba186c628d3a4cba89f179beddc0fdee68a1"
+    },
+    "7.4.0": {
+      "url": "https://releases.unraid.net/dl/stable/7.4.0/5d32b11ee717f3bcc946145606b84cea85fc8cf6d0eb63c2b66649984b6817c7/unRAIDServer-7.4.0-x86_64.zip",
+      "sha256": "c988c579fc68b31406d41473a4ad9e2b95ffbdb758ab0cb691669edc0a396c7c",
+      "bzroot_sha256": "f5069846cf4ed15e6e2949fea4060a9b2a18bf58fee949a0420b8b5a24146114"
+    }
+  }
+}
