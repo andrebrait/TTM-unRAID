@@ -10,8 +10,8 @@
 <!ENTITY pkgURL    "&gitURL;/packages">
 <!ENTITY plgPATH   "/boot/config/plugins/&name;">
 <!ENTITY oldName   "dwttm">
-<!ENTITY plgNAME   "dwttm-2026.11.15-x86_64-1">
-<!ENTITY plgMD5    "0f7887bba560eff062607295634d8977">
+<!ENTITY plgNAME   "dwttm-2026.11.15.1-x86_64-1">
+<!ENTITY plgMD5    "7a61c8c8093eacebf6d30bd0a52bc678">
 <!ENTITY emhttp    "/usr/local/emhttp/plugins/&name;">
 ]>
 
