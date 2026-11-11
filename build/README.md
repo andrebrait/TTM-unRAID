@@ -1,6 +1,6 @@
 # Native tmux and reptyr packages
 
-`packages/tmux-3.5a-x86_64-1_andrebrait.txz` and `packages/reptyr-0.10.0-x86_64-1_andrebrait.txz` are built from source by
+`packages/tmux-3.5a-x86_64-2_andrebrait.txz` and `packages/reptyr-0.10.0-x86_64-2_andrebrait.txz` are built from source by
 `.github/workflows/native-ttm.yml`, replacing the prebuilt `_slack15.x` packages of unknown provenance. The older package
 files stay in `packages/` because already-installed plugin versions may still fetch them.
 

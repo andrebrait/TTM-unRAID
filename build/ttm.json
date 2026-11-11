@@ -3,7 +3,7 @@
     {
       "name": "tmux",
       "version": "3.5a",
-      "build": "1",
+      "build": "2",
       "tag": "_andrebrait",
       "recipe": "build/recipes/tmux",
       "script": "tmux.SlackBuild",
@@ -18,12 +18,13 @@
           "-V"
         ]
       ],
-      "expect": "tmux 3.5a"
+      "expect": "tmux 3.5a",
+      "previous": "packages/tmux-3.5a-x86_64-1_slack15.1.txz"
     },
     {
       "name": "reptyr",
       "version": "0.10.0",
-      "build": "1",
+      "build": "2",
       "tag": "_andrebrait",
       "recipe": "build/recipes/reptyr",
       "script": "reptyr.SlackBuild",
@@ -38,7 +39,8 @@
           "-v"
         ]
       ],
-      "expect": "0.10.0"
+      "expect": "0.10.0",
+      "previous": "packages/reptyr-0.10.0-x86_64-1_slack15.0.txz"
     }
   ],
   "session": {

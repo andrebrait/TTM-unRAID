@@ -98,11 +98,26 @@ def verify(args):
         staged.mkdir(parents=True)
         for archive in archives:
             shutil.copyfile(archive, staged / archive.name)
+        previous = [REPO / package["previous"] for package in LOCK["packages"]]
+        for archive in previous:
+            shutil.copyfile(archive, staged / archive.name)
         failures = []
         with mapped_root(root):
+            # Start from the desertwitch packages a plugin upgrade finds installed, then upgrade exactly as the plugin does.
+            run_sandbox(root, ["/sbin/upgradepkg", "--install-new", *(f"/tmp/ttm-packages/{a.name}" for a in previous)],
+                        ENV, timeout=600)
             # Same command the plugin runs on the box, including package install scripts.
             run_sandbox(root, ["/sbin/upgradepkg", "--install-new", *(f"/tmp/ttm-packages/{a.name}" for a in archives)],
                         ENV, timeout=600)
+            # upgradepkg skips a package whose build/tag sorts below the installed one, so assert it really replaced the old one.
+            ok, installed = check(root, ["/bin/ls", "/var/log/packages"])
+            print(f"== /var/log/packages\n{installed}", end="")
+            for archive in archives:
+                if archive.stem not in installed.split():
+                    failures.append(f"upgrade to {archive.stem}")
+            for archive in previous:
+                if archive.stem in installed.split():
+                    failures.append(f"old {archive.stem} still installed")
             # ld.so resolves the transitive closure and symbol versions against the target's own libraries.
             for archive in archives:
                 for path in elf_members(archive, root):
