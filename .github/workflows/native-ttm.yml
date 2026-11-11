@@ -54,6 +54,7 @@ jobs:
           toolchain-lock: build/locks/toolchain.json
       - name: Configure mapped sandbox identities
         run: |
+          sudo apt-get update
           sudo apt-get install --no-install-recommends --yes bubblewrap uidmap
           sudo usermod --add-subuids 100000-165535 --add-subgids 100000-165535 root
       - name: Build tmux and reptyr in the sandboxed development root (no network)
