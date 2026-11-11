@@ -3,7 +3,7 @@
 <!DOCTYPE PLUGIN [
 <!ENTITY name      "dwttm">
 <!ENTITY author    "desertwitch">
-<!ENTITY version   "2026.11.11">
+<!ENTITY version   "2026.11.12">
 <!ENTITY launch    "Settings/dwTTM">
 <!ENTITY gitURL    "https://raw.githubusercontent.com/andrebrait/TTM-unRAID/main">
 <!ENTITY pluginURL "&gitURL;/plugin/&name;.plg">
@@ -14,10 +14,13 @@
 <!ENTITY emhttp    "/usr/local/emhttp/plugins/&name;">
 ]>
 
-<PLUGIN name="&name;" author="&author;" version="&version;" launch="&launch;" pluginURL="&pluginURL;" support="https://forums.unraid.net/topic/183427-plugin-tmux-terminal-manager-ttm/" min="6.11.0" icon="tty">
+<PLUGIN name="&name;" author="&author;" version="&version;" launch="&launch;" pluginURL="&pluginURL;" support="https://forums.unraid.net/topic/183427-plugin-tmux-terminal-manager-ttm/" min="7.3.4" icon="tty">
 
 <CHANGES>
 ## Tmux Terminal Manager (TTM)
+###2026.11.12
+- fix: tmux 3.5a and reptyr 0.10.0 are now built from source in GitHub Actions (previous packages were prebuilt binaries of unknown provenance); recipes are based on the Slackware tmux SlackBuild and the SlackBuilds.org reptyr SlackBuild
+- release note: the minimum supported Unraid version is now 7.3.4 (package builds are verified on 7.3.4 and 7.4.0)
 ###2026.11.11
 - fork: plugin, packages and updates now come from https://github.com/andrebrait/TTM-unRAID
 ###2026.10.16
@@ -90,12 +93,12 @@ exit 0
 <!--
 install or upgrade dependency files
 -->
-<FILE Name="&plgPATH;/tmux-3.5a-x86_64-1_slack15.1.txz" Min="6.13.0">
-<URL>&pkgURL;/tmux-3.5a-x86_64-1_slack15.1.txz</URL>
-<MD5>a697e9a8aa8d4704ea8858914f2e2d7d</MD5>
+<FILE Name="&plgPATH;/tmux-3.5a-x86_64-1_andrebrait.txz">
+<URL>&pkgURL;/tmux-3.5a-x86_64-1_andrebrait.txz</URL>
+<MD5>40a29c4b1ab8d973a01e8a7a957c3f09</MD5>
 </FILE>
 
-<FILE Run="/bin/bash" Min="6.13.0">
+<FILE Run="/bin/bash">
 <INLINE>
 if [ -f /boot/config/plugins/unassigned.devices.preclear.plg ]; then
     echo ""
@@ -114,47 +117,18 @@ elif compgen -G "/boot/extra/tmux*" >/dev/null 2>&amp;1; then
     echo ""
     touch &plgPATH;/custom
 else
-    upgradepkg --install-new &plgPATH;/tmux-3.5a-x86_64-1_slack15.1.txz
+    upgradepkg --install-new &plgPATH;/tmux-3.5a-x86_64-1_andrebrait.txz
     rm -f &plgPATH;/custom
 fi
+# superseded prebuilt packages from earlier plugin versions
+rm -f &plgPATH;/tmux-3.5a-x86_64-1_slack15.*.txz &plgPATH;/reptyr-0.10.0-x86_64-1_slack15.0.txz
 exit 0
 </INLINE>
 </FILE>
 
-<FILE Name="&plgPATH;/tmux-3.5a-x86_64-1_slack15.0.txz" Min="6.11.0" Max="6.12.99">
-<URL>&pkgURL;/tmux-3.5a-x86_64-1_slack15.0.txz</URL>
-<MD5>337e6b7d531cb9ec11884b01dd58af8a</MD5>
-</FILE>
-
-<FILE Run="/bin/bash" Min="6.11.0" Max="6.12.99">
-<INLINE>
-if [ -f /boot/config/plugins/unassigned.devices.preclear.plg ]; then
-    echo ""
-    echo "----------------------------------------------------------------"
-    echo " Tmux is already installed from elsewhere, not reinstalling."
-    echo " It is part of Unassigned Devices Preclear, so we'll use that."
-    echo "----------------------------------------------------------------"
-    echo ""
-    touch &plgPATH;/custom
-elif compgen -G "/boot/extra/tmux*" >/dev/null 2>&amp;1; then
-    echo ""
-    echo "----------------------------------------------------------------"
-    echo " Tmux is already installed from elsewhere, not reinstalling."
-    echo " It was found in the /boot/extra/ folder, so we'll use that."
-    echo "----------------------------------------------------------------"
-    echo ""
-    touch &plgPATH;/custom
-else
-    upgradepkg --install-new &plgPATH;/tmux-3.5a-x86_64-1_slack15.0.txz
-    rm -f &plgPATH;/custom
-fi
-exit 0
-</INLINE>
-</FILE>
-
-<FILE Name="&plgPATH;/reptyr-0.10.0-x86_64-1_slack15.0.txz" Min="6.11.0" Run="upgradepkg --install-new">
-<URL>&pkgURL;/reptyr-0.10.0-x86_64-1_slack15.0.txz</URL>
-<MD5>9a58bc6f78e7d46bca8ad4c1fd1ad94c</MD5>
+<FILE Name="&plgPATH;/reptyr-0.10.0-x86_64-1_andrebrait.txz" Run="upgradepkg --install-new">
+<URL>&pkgURL;/reptyr-0.10.0-x86_64-1_andrebrait.txz</URL>
+<MD5>ad9b0f2979ed9448572d406900ebd021</MD5>
 </FILE>
 
 <!--
