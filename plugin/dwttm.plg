@@ -97,7 +97,7 @@ install or upgrade dependency files
 -->
 <FILE Name="&plgPATH;/tmux-3.5a-x86_64-2_andrebrait.txz">
 <URL>&pkgURL;/tmux-3.5a-x86_64-2_andrebrait.txz</URL>
-<MD5>TMUX_MD5</MD5>
+<MD5>d50d616b92a3a45d5ae84dbb89147abf</MD5>
 </FILE>
 
 <FILE Run="/bin/bash">
@@ -131,7 +131,7 @@ exit 0
 
 <FILE Name="&plgPATH;/reptyr-0.10.0-x86_64-2_andrebrait.txz" Run="upgradepkg --install-new">
 <URL>&pkgURL;/reptyr-0.10.0-x86_64-2_andrebrait.txz</URL>
-<MD5>REPTYR_MD5</MD5>
+<MD5>3d12226a86245ef09bf93ac2f0ccfe3c</MD5>
 </FILE>
 
 <!--
