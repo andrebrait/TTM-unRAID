@@ -7,7 +7,7 @@
 <p><strong>Tmux for people who don&#39;t do Tmux, integrated into <a href="https://unraid.net/">Unraid</a>.</strong></p>
 
 <p>
-  <a href="https://github.com/andrebrait/TTM-unRAID/tags"><img src="https://img.shields.io/github/v/tag/andrebrait/TTM-unRAID?label=release&color=blue" alt="Latest tag"></a>
+  <a href="https://github.com/andrebrait/TTM-unRAID/tags"><img src="https://img.shields.io/github/v/release/andrebrait/TTM-unRAID?label=release&color=blue" alt="Latest tag"></a>
   <img src="https://img.shields.io/badge/Unraid-7.3.4%2B-e8543f" alt="Supported Unraid versions">
   <a href="LICENSE"><img src="https://img.shields.io/github/license/andrebrait/TTM-unRAID?color=green" alt="License: GPL-2.0-only"></a>
 </p>
