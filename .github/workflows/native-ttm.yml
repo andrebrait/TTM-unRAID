@@ -54,8 +54,13 @@ jobs:
           toolchain-lock: build/locks/toolchain.json
       - name: Configure mapped sandbox identities
         run: |
-          sudo apt-get update
-          sudo apt-get install --no-install-recommends --yes bubblewrap uidmap
+          # Runner mirrors occasionally fail to resolve; retry instead of failing the whole run.
+          for attempt in 1 2 3 4 5; do
+            sudo apt-get update || true
+            sudo apt-get install --no-install-recommends --yes bubblewrap uidmap && break
+            [[ $attempt -lt 5 ]] || exit 1
+            sleep 30
+          done
           sudo usermod --add-subuids 100000-165535 --add-subgids 100000-165535 root
       - name: Build tmux and reptyr in the sandboxed development root (no network)
         env:
@@ -108,8 +113,13 @@ jobs:
           path: dist
       - name: Install archive tools and configure mapped sandbox identities
         run: |
-          sudo apt-get update
-          sudo apt-get install --no-install-recommends --yes cpio zstd xz-utils squashfs-tools bubblewrap uidmap
+          # Runner mirrors occasionally fail to resolve; retry instead of failing the whole run.
+          for attempt in 1 2 3 4 5; do
+            sudo apt-get update || true
+            sudo apt-get install --no-install-recommends --yes cpio zstd xz-utils squashfs-tools bubblewrap uidmap && break
+            [[ $attempt -lt 5 ]] || exit 1
+            sleep 30
+          done
           sudo usermod --add-subuids 100000-165535 --add-subgids 100000-165535 root
       - name: Install with upgradepkg into the exact Unraid ${{ matrix.unraid }} root, resolve ELF dependencies, run the smoke commands and a detached tmux session
         env:
