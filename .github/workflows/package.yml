@@ -1,6 +1,9 @@
 name: Package plugin
 
 on:
+  push:
+    branches: [rename]
+    paths: [.github/workflows/package.yml]
   workflow_dispatch:
     inputs:
       version:
