@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-labelledby="t">
+  <title id="t">TTM v2 logo</title>
+  <rect x="8" y="16" width="112" height="96" rx="12" fill="#1f2933"/>
+  <path d="M8 28a12 12 0 0 1 12-12h88a12 12 0 0 1 12 12v8H8z" fill="#3e4c59"/>
+  <circle cx="22" cy="26" r="4" fill="#e8543f"/>
+  <circle cx="34" cy="26" r="4" fill="#f5b83d"/>
+  <circle cx="46" cy="26" r="4" fill="#5ec26a"/>
+  <line x1="68" y1="36" x2="68" y2="112" stroke="#52606d" stroke-width="3"/>
+  <polyline points="20,54 34,64 20,74" fill="none" stroke="#5ec26a" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+  <line x1="40" y1="80" x2="56" y2="80" stroke="#e8543f" stroke-width="6" stroke-linecap="round"/>
+  <line x1="80" y1="52" x2="108" y2="52" stroke="#9fb3c8" stroke-width="5" stroke-linecap="round"/>
+  <line x1="80" y1="68" x2="100" y2="68" stroke="#9fb3c8" stroke-width="5" stroke-linecap="round"/>
+  <line x1="80" y1="84" x2="106" y2="84" stroke="#9fb3c8" stroke-width="5" stroke-linecap="round"/>
+</svg>
