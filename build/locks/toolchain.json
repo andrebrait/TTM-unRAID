@@ -206,5 +206,31 @@
       "checksum_manifest_sha256": "3633a700605516088e4a6202735e8e093a4cea10d8c41e383cb268c88613f48a",
       "checksum_md5": "c9e27b9a83c72cc53b8616a00b021c78"
     }
+  },
+  {
+    "name": "m4",
+    "url": "https://slackware.uk/cumulative/slackware64-current/slackware64/d/m4-1.4.21-x86_64-2.txz",
+    "file": "m4-1.4.21-x86_64-2.txz",
+    "sha256": "7d1ee633306e14e34b0005ea31c58fbafe751ad4e1c6808c933b231a789f893f",
+    "provenance": {
+      "kind": "upstream-binary",
+      "url": "https://www.slackware.com/gpg-key",
+      "revision": "EC5649DA401E22ABFA6736EF6A4463C040102233",
+      "checksum_manifest_sha256": "3633a700605516088e4a6202735e8e093a4cea10d8c41e383cb268c88613f48a",
+      "checksum_md5": "fecc11c925edf89266f755526fa6f91b"
+    }
+  },
+  {
+    "name": "bison",
+    "url": "https://slackware.uk/cumulative/slackware64-current/slackware64/d/bison-3.8.2-x86_64-2.txz",
+    "file": "bison-3.8.2-x86_64-2.txz",
+    "sha256": "9cccc0876a02d39b5016e4018d75056c25175d5fcbea501287347a831b7b4bbe",
+    "provenance": {
+      "kind": "upstream-binary",
+      "url": "https://www.slackware.com/gpg-key",
+      "revision": "EC5649DA401E22ABFA6736EF6A4463C040102233",
+      "checksum_manifest_sha256": "3633a700605516088e4a6202735e8e093a4cea10d8c41e383cb268c88613f48a",
+      "checksum_md5": "77a2e5c3c47eb72029a19360ab39d7bf"
+    }
   }
 ]
