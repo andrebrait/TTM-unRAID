@@ -24,7 +24,7 @@ Markdown="false"
  * included in all copies or substantial portions of the Software.
  *
  */
-require_once '/usr/local/emhttp/plugins/dwttm/include/dwttm_config.php';
+require_once '/usr/local/emhttp/plugins/ttm2/include/dwttm_config.php';
 $theme = ($display["theme"] == 'white' || $display["theme"] == 'azure') ? 'light' : 'dark';
 
 if($dwttm_running && !$dwttm_tmux_functional) {
@@ -33,12 +33,12 @@ if($dwttm_running && !$dwttm_tmux_functional) {
 }
 ?>
 
-<script src="<?=autov('/plugins/dwttm/js/jquery.mask.min.js');?>"></script>
-<script src="<?=autov('/plugins/dwttm/js/xterm.js');?>"></script>
-<script src="<?=autov('/plugins/dwttm/js/addon-fit.js');?>"></script>
+<script src="<?=autov('/plugins/ttm2/js/jquery.mask.min.js');?>"></script>
+<script src="<?=autov('/plugins/ttm2/js/xterm.js');?>"></script>
+<script src="<?=autov('/plugins/ttm2/js/addon-fit.js');?>"></script>
 
-<link type="text/css" rel="stylesheet" href="<?=autov('/plugins/dwttm/css/xterm.css');?>">
-<link type="text/css" rel="stylesheet" href="<?=autov("/plugins/dwttm/css/dwttm-{$theme}.css");?>">
+<link type="text/css" rel="stylesheet" href="<?=autov('/plugins/ttm2/css/xterm.css');?>">
+<link type="text/css" rel="stylesheet" href="<?=autov("/plugins/ttm2/css/dwttm-{$theme}.css");?>">
 
 <?if($dwttm_running):?>
 <table class="tablesorter shift dwttm-termtable">
@@ -135,8 +135,8 @@ if($dwttm_running && !$dwttm_tmux_functional) {
 </div><br>
 
 <form markdown="0" id="dwttm-settings" name="dwttm_settings" method="POST" action="/update.php" target="progressFrame">
-<input type="hidden" name="#file" value="dwttm/dwttm.cfg">
-<input type="hidden" id="dwttm-cmd" name="#command" value="/usr/local/emhttp/plugins/dwttm/scripts/none">
+<input type="hidden" name="#file" value="ttm2/ttm2.cfg">
+<input type="hidden" id="dwttm-cmd" name="#command" value="/usr/local/emhttp/plugins/ttm2/scripts/none">
 
     <dl>
         <dt>Tmux Backend Available:</dt>
@@ -486,12 +486,12 @@ function KillSessions() {
             confirmButtonText: "Terminate Sessions",
             showCancelButton: true
         }, function() {
-            $('#dwttm-cmd').val('/usr/local/emhttp/plugins/dwttm/scripts/killsessions');
+            $('#dwttm-cmd').val('/usr/local/emhttp/plugins/ttm2/scripts/killsessions');
             $('#dwttm-settings').submit();
         });
     } else {
         if (confirm("--- DANGER --- DANGER --- DANGER ---\n\nThis will kill all TTM sessions and running programs inside.\n\n(Note that non-TTM sessions will not be killed.)\n\nAre you sure that you want to do this?")) {
-            $('#dwttm-cmd').val('/usr/local/emhttp/plugins/dwttm/scripts/killsessions');
+            $('#dwttm-cmd').val('/usr/local/emhttp/plugins/ttm2/scripts/killsessions');
             $('#dwttm-settings').submit();
         }
     }
@@ -507,12 +507,12 @@ function KillSessions2() {
             confirmButtonText: "Terminate Sessions",
             showCancelButton: true
         }, function() {
-            $('#dwttm-cmd').val('/usr/local/emhttp/plugins/dwttm/scripts/killsessions2');
+            $('#dwttm-cmd').val('/usr/local/emhttp/plugins/ttm2/scripts/killsessions2');
             $('#dwttm-settings').submit();
         });
     } else {
         if (confirm("--- DANGER --- DANGER --- DANGER ---\n\nThis will kill all Tmux sessions and running programs inside.\n\n(Note that preclear sessions will not be killed.)\n\nAre you sure that you want to do this?")) {
-            $('#dwttm-cmd').val('/usr/local/emhttp/plugins/dwttm/scripts/killsessions2');
+            $('#dwttm-cmd').val('/usr/local/emhttp/plugins/ttm2/scripts/killsessions2');
             $('#dwttm-settings').submit();
         }
     }
@@ -522,7 +522,7 @@ function fetchSessions(manuallyInvoked) {
     if(!manuallyInvoked) {
         clearTimeout(timers.fetchSessions);
     }
-    $.getJSON('/plugins/dwttm/include/dwttm_sessions.php', function (data) {
+    $.getJSON('/plugins/ttm2/include/dwttm_sessions.php', function (data) {
         if (data.response) {
             let sessions = data.response;
 
@@ -796,7 +796,7 @@ function fetchSessions(manuallyInvoked) {
 }
 
 function createNewSession() {
-    $.getJSON('/plugins/dwttm/include/dwttm_new_session.php', function (response) {
+    $.getJSON('/plugins/ttm2/include/dwttm_new_session.php', function (response) {
         if (response.success && response.session_id) {
             fetchSessions(true);
             connectToSession(response.session_id);
@@ -840,7 +840,7 @@ function createNewSession() {
 }
 
 function createNewNamedSession(sessionName) {
-    $.getJSON('/plugins/dwttm/include/dwttm_new_session.php', { session: sessionName }, function (response) {
+    $.getJSON('/plugins/ttm2/include/dwttm_new_session.php', { session: sessionName }, function (response) {
         if (response.success && response.session_id) {
             fetchSessions(true);
             connectToSession(response.session_id);
@@ -884,7 +884,7 @@ function createNewNamedSession(sessionName) {
 }
 
 function closeSession(sessionId) {
-    $.getJSON('/plugins/dwttm/include/dwttm_close_session.php', { session: sessionId }, function (response) {
+    $.getJSON('/plugins/ttm2/include/dwttm_close_session.php', { session: sessionId }, function (response) {
         if (response.success) {
             fetchSessions(true);
         } else {
@@ -933,7 +933,7 @@ function closeSession(sessionId) {
 }
 
 function renameSession(sessionId, sessionName) {
-    $.getJSON('/plugins/dwttm/include/dwttm_rename_session.php', { session: sessionId, sessionName: sessionName }, function (response) {
+    $.getJSON('/plugins/ttm2/include/dwttm_rename_session.php', { session: sessionId, sessionName: sessionName }, function (response) {
         if (response.success) {
             fetchSessions(true);
         } else {
@@ -985,7 +985,7 @@ function fetchSessionMouse(sessionId) {
     const $mouseButton = $('#dwttm-mouse-button');
     const $mouseButtonInfo = $('#dwttm-mouse-button-info');
     const $mouseButtonStart = $('#dwttm-mouse-start-message');
-    $.getJSON('/plugins/dwttm/include/dwttm_mouse_session.php', { session: sessionId }, function (response) {
+    $.getJSON('/plugins/ttm2/include/dwttm_mouse_session.php', { session: sessionId }, function (response) {
         if (response.mouse) {
             $mouseButton.off("click");
             $mouseButtonStart.hide();
@@ -1026,7 +1026,7 @@ function fetchSessionMouse(sessionId) {
 
 function setSessionMouse(sessionId, requestedMouse) {
     const $mouseButton = $('#dwttm-mouse-button');
-    $.getJSON('/plugins/dwttm/include/dwttm_mouse_session.php', { session: sessionId, mouse: requestedMouse }, function (response) {
+    $.getJSON('/plugins/ttm2/include/dwttm_mouse_session.php', { session: sessionId, mouse: requestedMouse }, function (response) {
         if(response.newmouse) {
             $mouseButton.off("click");
             if(response.newmouse === "on") {
@@ -1112,14 +1112,14 @@ function popupSession(sessionId) {
     if(sessionId) {
         const windowName = `ttm_sess_${sessionId}`;
         window.open(
-            `/plugins/dwttm/tterminal.php?session=${encodeURIComponent(sessionId)}`,
+            `/plugins/ttm2/tterminal.php?session=${encodeURIComponent(sessionId)}`,
             windowName,
             `width=${width},height=${height},top=${top},left=${left},popup=yes,scrollbars=no`
         );
     } else {
         const windowName = "ttm_rand_" + Math.random().toString(36).substr(2, 9);
         window.open(
-            '/plugins/dwttm/tterminal.php',
+            '/plugins/ttm2/tterminal.php',
             windowName,
             `width=${width},height=${height},top=${top},left=${left},popup=yes,scrollbars=no`
         );
@@ -1219,9 +1219,9 @@ function connectToSession(sessionId) {
 
 function checkTTMsettings() {
     if ($('#SERVICE').val() === 'enable')
-        $('#dwttm-cmd').val('/usr/local/emhttp/plugins/dwttm/scripts/start');
+        $('#dwttm-cmd').val('/usr/local/emhttp/plugins/ttm2/scripts/start');
     else
-        $('#dwttm-cmd').val('/usr/local/emhttp/plugins/dwttm/scripts/stop');
+        $('#dwttm-cmd').val('/usr/local/emhttp/plugins/ttm2/scripts/stop');
 
     if ("<?=$dwttm_running;?>" == 1){
         $('.dwttm-not-run').prop('disabled', true);
@@ -1247,7 +1247,7 @@ $(function() {
     });
 
     $('#RESTART').click(function(){
-        $('#dwttm-cmd').val('/usr/local/emhttp/plugins/dwttm/scripts/restart');
+        $('#dwttm-cmd').val('/usr/local/emhttp/plugins/ttm2/scripts/restart');
         $('#dwttm-settings').submit();
     });
 
@@ -1284,7 +1284,7 @@ $(function() {
     }
 
     if ( typeof caPluginUpdateCheck === "function" ) {
-        caPluginUpdateCheck("dwttm.plg",{name:"Tmux Terminal Manager"});
+        caPluginUpdateCheck("ttm2.plg",{name:"TTM v2 (Tmux Terminal Manager)"});
     }
 });
 </script>

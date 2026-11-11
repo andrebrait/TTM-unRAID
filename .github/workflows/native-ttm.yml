@@ -11,6 +11,8 @@ on:
     paths:
       - .github/workflows/native-ttm.yml
       - build/**
+      - source/**
+      - plugin/**
 
 permissions:
   contents: read

@@ -24,13 +24,13 @@ Link="nav-user"
 <?if(version_compare(parse_ini_file('/etc/unraid-version')['version'],'6.12.0-beta5', '>')):?>
 <?if(stripos($path, "dashboard") !== false):?>
 <?
-    $dwttm_tmp_cfg = @parse_ini_file("/boot/config/plugins/dwttm/dwttm.cfg");
+    $dwttm_tmp_cfg = @parse_ini_file("/boot/config/plugins/ttm2/ttm2.cfg");
     $dwttm_tmp_running = !empty(shell_exec("pgrep -x ttmd 2>/dev/null"));
     $dwttm_tmp_os_dashboard = trim(isset($dwttm_tmp_cfg['OSDASHBOARD']) ? htmlspecialchars($dwttm_tmp_cfg['OSDASHBOARD']) : 'enable');
 ?>
 <?if($dwttm_tmp_running && $dwttm_tmp_os_dashboard === "enable"):?>
 <?
-$pluginname = "dwttm";
+$pluginname = "ttm2";
 $dwttm_dash_border = 'border: 1px solid rgba(' . (($display["theme"] == 'white' || $display["theme"] == 'azure') ? '0, 0, 0, 0.1' : '255, 255, 255, 0.1') . ');';
 $dwttm_dash_color = 'color: rgba(' . (($display["theme"] == 'white' || $display["theme"] == 'azure') ? '0, 0, 0, 0.3' : '255, 255, 255, 0.3') . ');';
 
@@ -141,14 +141,14 @@ EOT;
         if(sessionId) {
             const windowName = `ttm_sess_${sessionId}`;
             window.open(
-                `/plugins/dwttm/tterminal.php?session=${encodeURIComponent(sessionId)}`,
+                `/plugins/ttm2/tterminal.php?session=${encodeURIComponent(sessionId)}`,
                 windowName,
                 `width=${width},height=${height},top=${top},left=${left},popup=yes,scrollbars=no`
             );
         } else {
             const windowName = "ttm_rand_" + Math.random().toString(36).substr(2, 9);
             window.open(
-                '/plugins/dwttm/tterminal.php',
+                '/plugins/ttm2/tterminal.php',
                 windowName,
                 `width=${width},height=${height},top=${top},left=${left},popup=yes,scrollbars=no`
             );
@@ -157,7 +157,7 @@ EOT;
     function dwTTMDashFetchSessions() {
         const dropdown = document.getElementById('dwttm-dash-sessions-select');
         clearTimeout(timers.dwTTMDashFetchSessions);
-        fetch('/plugins/dwttm/include/dwttm_sessions.php')
+        fetch('/plugins/ttm2/include/dwttm_sessions.php')
             .then(response => response.json())
             .then(data => {
                 if (data.response) {

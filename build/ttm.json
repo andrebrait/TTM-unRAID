@@ -43,6 +43,11 @@
       "previous": "packages/reptyr-0.10.0-x86_64-1_slack15.0.txz"
     }
   ],
+  "plugin": {
+    "name": "dwttm",
+    "id": "ttm2",
+    "previous": "archive/dwttm-2025.08.25-x86_64-1.txz"
+  },
   "session": {
     "name": "ttm-ci",
     "command": "tmux new-session -d -s ttm-ci && tmux list-sessions && tmux list-sessions | grep -q \"^ttm-ci:\"; status=$?; tmux kill-server; exit $status"

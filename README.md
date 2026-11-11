@@ -1,16 +1,18 @@
 ## Fork notice
 
-This is a maintained fork of [desertwitch/TTM-unRAID](https://github.com/desertwitch/TTM-unRAID) by desertwitch. Upstream has announced its end of support, so this fork carries on maintaining the plugin and publishes its own releases.
+TTM v2 is a maintained fork of [desertwitch/TTM-unRAID](https://github.com/desertwitch/TTM-unRAID) by desertwitch, who wrote the plugin (original [forum thread](https://forums.unraid.net/topic/183427-plugin-tmux-terminal-manager-ttm/)). Upstream has announced its end of support, so this fork carries on maintaining the plugin and publishes its own releases.
+
+The plugin is named `ttm2` (previously `dwttm`) so it does not clash with the original in Community Applications.
 
 ### Installation
 
 In the Unraid web UI, go to **Plugins → Install Plugin** and enter:
 
 ```
-https://raw.githubusercontent.com/andrebrait/TTM-unRAID/main/plugin/dwttm.plg
+https://raw.githubusercontent.com/andrebrait/TTM-unRAID/main/plugin/ttm2.plg
 ```
 
-Installing over the original TTM plugin keeps your settings.
+Installing it replaces the original TTM plugin (or an earlier release of this fork) and keeps your settings.
 
 ### Requirements
 
@@ -20,7 +22,7 @@ Installing over the original TTM plugin keeps your settings.
 
 Report bugs and feature requests in the [issue tracker of this fork](https://github.com/andrebrait/TTM-unRAID/issues).
 
-Tmux Terminal Manager (TTM)
+TTM v2 (Tmux Terminal Manager)
 ================
 _Tmux for people who don't do Tmux, integrated into Unraid OS._
 

@@ -15,8 +15,8 @@
 # The above copyright notice and this permission notice shall be
 # included in all copies or substantial portions of the Software.
 #
-BOOT="/boot/config/plugins/dwttm"
-DOCROOT="/usr/local/emhttp/plugins/dwttm"
+BOOT="/boot/config/plugins/ttm2"
+DOCROOT="/usr/local/emhttp/plugins/ttm2"
 
 chmod 755 /usr/bin/ttmd
 chmod 755 /etc/rc.d/rc.ttmd
@@ -24,7 +24,7 @@ chmod 755 $DOCROOT/scripts/*
 chmod 755 $DOCROOT/event/*
 chmod 644 /etc/logrotate.d/ttmd
 
-cp -n $DOCROOT/default.cfg $BOOT/dwttm.cfg >/dev/null 2>&1
+cp -n $DOCROOT/default.cfg $BOOT/ttm2.cfg >/dev/null 2>&1
 
 # remove (legacy) plugin-specific polling tasks
 rm -f /etc/cron.daily/dwttm-poller >/dev/null 2>&1

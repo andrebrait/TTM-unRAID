@@ -16,7 +16,7 @@
 # included in all copies or substantial portions of the Software.
 #
 
-TTMCONF="/boot/config/plugins/dwttm/dwttm.cfg"
+TTMCONF="/boot/config/plugins/ttm2/ttm2.cfg"
 [ -e "$TTMCONF" ] && source $TTMCONF
 
 ttmd_start() {

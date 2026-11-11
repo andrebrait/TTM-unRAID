@@ -2,7 +2,7 @@ Menu="Buttons:3_"
 Title="TTerminal"
 Icon="tty"
 Code="f1e4"
-Cond="@shell_exec('pgrep -x ttmd 2>/dev/null') && (($ttmc = @parse_ini_file('/boot/config/plugins/dwttm/dwttm.cfg')) === false || !isset($ttmc['OSBUTTON']) || $ttmc['OSBUTTON'] !== 'disable')"
+Cond="@shell_exec('pgrep -x ttmd 2>/dev/null') && (($ttmc = @parse_ini_file('/boot/config/plugins/ttm2/ttm2.cfg')) === false || !isset($ttmc['OSBUTTON']) || $ttmc['OSBUTTON'] !== 'disable')"
 ---
 <?
 /* Copyright Derek Macias (parts of code from NUT package)
@@ -36,7 +36,7 @@ function dwTTMbutton() {
 
     const windowName = "ttm_rand_" + Math.random().toString(36).substr(2, 9);
     window.open(
-        '/plugins/dwttm/tterminal.php',
+        '/plugins/ttm2/tterminal.php',
         windowName,
         `width=${width},height=${height},top=${top},left=${left},popup=yes,scrollbars=no`
     );

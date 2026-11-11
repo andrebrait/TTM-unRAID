@@ -17,7 +17,7 @@
  * included in all copies or substantial portions of the Software.
  *
  */
-require_once '/usr/local/emhttp/plugins/dwttm/include/dwttm_helpers.php';
+require_once '/usr/local/emhttp/plugins/ttm2/include/dwttm_helpers.php';
 try {
     header('Content-Type: application/json');
 

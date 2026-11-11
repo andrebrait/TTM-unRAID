@@ -17,7 +17,7 @@
 #
 exec &>/tmp/ttm_arraystop.log
 
-TTMCONF="/boot/config/plugins/dwttm/dwttm.cfg"
+TTMCONF="/boot/config/plugins/ttm2/ttm2.cfg"
 [ -e "$TTMCONF" ] && source $TTMCONF
 
 get_descendants_ps() {

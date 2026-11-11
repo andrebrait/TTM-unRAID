@@ -17,7 +17,7 @@
  * included in all copies or substantial portions of the Software.
  *
  */
-$dwttm_cfg = parse_ini_file("/boot/config/plugins/dwttm/dwttm.cfg");
+$dwttm_cfg = parse_ini_file("/boot/config/plugins/ttm2/ttm2.cfg");
 
 $dwttm_service = trim(isset($dwttm_cfg['SERVICE']) ? htmlspecialchars($dwttm_cfg['SERVICE']) : 'disable');
 $dwttm_service_port = trim(isset($dwttm_cfg['SERVICEPORT']) ? htmlspecialchars($dwttm_cfg['SERVICEPORT']) : '49161');
@@ -39,6 +39,6 @@ $dwttm_tmux_available = !empty(shell_exec("type tmux 2>/dev/null"));
 $dwttm_tmux_version = htmlspecialchars(trim(shell_exec("tmux -V 2>/dev/null") ?? "n/a"));
 $dwttm_tmux_package = htmlspecialchars(trim(shell_exec("find /var/log/packages/ -type f -iname 'tmux*' -printf '%f\n' 2>/dev/null") ?? "n/a"));
 $dwttm_tmux_functional = ($dwttm_tmux_available && !empty($dwttm_tmux_version) && $dwttm_tmux_version !== "n/a");
-$dwttm_tmux_custom = @file_exists("/boot/config/plugins/dwttm/custom");
+$dwttm_tmux_custom = @file_exists("/boot/config/plugins/ttm2/custom");
 
 ?>

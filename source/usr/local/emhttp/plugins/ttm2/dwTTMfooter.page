@@ -22,7 +22,7 @@ Link="nav-user"
  */
 ?>
 <?
-    $dwttm_ftmp_cfg = @parse_ini_file("/boot/config/plugins/dwttm/dwttm.cfg");
+    $dwttm_ftmp_cfg = @parse_ini_file("/boot/config/plugins/ttm2/ttm2.cfg");
     $dwttm_ftmp_running = !empty(shell_exec("pgrep -x ttmd 2>/dev/null"));
     $dwttm_ftmp_os_footer = trim(isset($dwttm_ftmp_cfg['OSFOOTER']) ? htmlspecialchars($dwttm_ftmp_cfg['OSFOOTER']) : 'enable');
 ?>
@@ -104,21 +104,21 @@ function dwTTMFooterButton(sessionId) {
     if(sessionId && sessionId !== "#") {
         const windowName = `ttm_sess_${sessionId}`;
         window.open(
-            `/plugins/dwttm/tterminal.php?session=${encodeURIComponent(sessionId)}`,
+            `/plugins/ttm2/tterminal.php?session=${encodeURIComponent(sessionId)}`,
             windowName,
             `width=${width},height=${height},top=${top},left=${left},popup=yes,scrollbars=no`
         );
     } else if(sessionId && sessionId === "#") {
         const windowName = "ttm_rand_" + Math.random().toString(36).substr(2, 9);
         window.open(
-            '/plugins/dwttm/tterminal.php?grid',
+            '/plugins/ttm2/tterminal.php?grid',
             windowName,
             `width=${width},height=${height},top=${top},left=${left},popup=yes,scrollbars=no`
         );
     } else {
         const windowName = "ttm_rand_" + Math.random().toString(36).substr(2, 9);
         window.open(
-            '/plugins/dwttm/tterminal.php?quick',
+            '/plugins/ttm2/tterminal.php?quick',
             windowName,
             `width=${width},height=${height},top=${top},left=${left},popup=yes,scrollbars=no`
         );
@@ -128,7 +128,7 @@ function dwTTMFooterButton(sessionId) {
 function dwTTMFooterFetchSessions() {
     const dropdownContent = document.querySelector('.dwttm-footer-content');
     clearTimeout(timers.dwTTMFooterFetchSessions);
-    fetch('/plugins/dwttm/include/dwttm_sessions.php')
+    fetch('/plugins/ttm2/include/dwttm_sessions.php')
         .then(response => response.json())
         .then(data => {
             if(data.response) {

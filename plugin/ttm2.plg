@@ -1,23 +1,28 @@
 <?xml version='1.0' standalone='yes'?>
 
 <!DOCTYPE PLUGIN [
-<!ENTITY name      "dwttm">
+<!ENTITY name      "ttm2">
 <!ENTITY author    "desertwitch">
-<!ENTITY version   "2026.11.13">
+<!ENTITY version   "2026.11.15">
 <!ENTITY launch    "Settings/dwTTM">
 <!ENTITY gitURL    "https://raw.githubusercontent.com/andrebrait/TTM-unRAID/main">
 <!ENTITY pluginURL "&gitURL;/plugin/&name;.plg">
 <!ENTITY pkgURL    "&gitURL;/packages">
 <!ENTITY plgPATH   "/boot/config/plugins/&name;">
-<!ENTITY plgNAME   "dwttm-2025.08.25-x86_64-1">
-<!ENTITY plgMD5    "e1c5e1c9fc223c026d8319d3079cf484">
+<!ENTITY oldName   "dwttm">
+<!ENTITY plgNAME   "dwttm-2026.11.15-x86_64-1">
+<!ENTITY plgMD5    "00000000000000000000000000000000">
 <!ENTITY emhttp    "/usr/local/emhttp/plugins/&name;">
 ]>
 
-<PLUGIN name="&name;" author="&author;" version="&version;" launch="&launch;" pluginURL="&pluginURL;" support="https://forums.unraid.net/topic/183427-plugin-tmux-terminal-manager-ttm/" min="7.3.4" icon="tty">
+<PLUGIN name="&name;" author="&author;" version="&version;" launch="&launch;" pluginURL="&pluginURL;" support="https://github.com/andrebrait/TTM-unRAID/issues" min="7.3.4" icon="tty">
 
 <CHANGES>
-## Tmux Terminal Manager (TTM)
+## TTM v2 (Tmux Terminal Manager)
+###2026.11.15
+- rename: the plugin is now TTM v2 (plugin name ttm2), a maintained fork at https://github.com/andrebrait/TTM-unRAID; installing it replaces the previous Tmux Terminal Manager plugin (dwttm), from the original author or from this fork, and keeps your settings
+- release note: the plugin now lives in /boot/config/plugins/ttm2 and its settings file is ttm2.cfg (your existing dwttm.cfg is migrated on install)
+- release note: please report issues at https://github.com/andrebrait/TTM-unRAID/issues
 ###2026.11.13
 - fix: the tmux and reptyr packages are now build 2 (2026.11.12 packages were skipped by upgradepkg on systems with the previous prebuilt packages installed, because the new build tag sorted below the old one)
 ###2026.11.12
@@ -88,6 +93,31 @@ else
     killall ttmd >/dev/null 2>&amp;1
 fi
 killall dwttm-poller >/dev/null 2>&amp;1
+exit 0
+</INLINE>
+</FILE>
+
+<!--
+replace the previous plugin (dwttm) and keep its settings
+-->
+<FILE Run="/bin/bash">
+<INLINE>
+OLD=/boot/config/plugins/&oldName;
+if [ ! -e "&plgPATH;/&name;.cfg" ] &amp;&amp; [ -d "$OLD" ]; then
+    echo "Migrating settings from the previous TTM plugin..."
+    mkdir -p "&plgPATH;"
+    for f in "$OLD"/*; do
+        [ -e "$f" ] || continue
+        b=$(basename "$f")
+        case "$b" in
+            *.txz) continue ;;
+            &oldName;.cfg) b=&name;.cfg ;;
+        esac
+        cp -a "$f" "&plgPATH;/$b" || exit 1
+    done
+fi
+rm -f /boot/config/plugins/&oldName;.plg /var/log/plugins/&oldName;.plg
+rm -rf /usr/local/emhttp/plugins/&oldName; "$OLD"
 exit 0
 </INLINE>
 </FILE>
@@ -184,7 +214,7 @@ fi
 
 echo ""
 echo "----------------------------------------------------------------"
-echo " Tmux Terminal Manager (TTM) has been installed."
+echo " TTM v2 (Tmux Terminal Manager) has been installed."
 echo " Version: &version; / Plugin Maintainer: &author;"
 echo "----------------------------------------------------------------"
 echo ""
@@ -235,7 +265,7 @@ rm -f /etc/cron.daily/dwttm-poller >/dev/null 2>&amp;1
 
 echo ""
 echo "----------------------------------------------------------------"
-echo " Tmux Terminal Manager (TTM) has been removed."
+echo " TTM v2 (Tmux Terminal Manager) has been removed."
 echo " Version: &version; / Plugin Maintainer: &author;"
 echo "----------------------------------------------------------------"
 echo ""

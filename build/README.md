@@ -18,3 +18,7 @@ Each run verifies the packages on the exact Unraid **7.3.4** and **7.4.0** roots
 dependency closure of every binary (`ld.so --list`), `tmux -V`, `reptyr -v`, and a detached tmux session started and listed
 as root. A dispatch with `publish` commits the verified packages and `.md5` files to `packages/` (only possible from the
 default branch; the first set was committed from the run artifact).
+
+The same run also packs `source/` into the plugin package with `build/package-plugin.sh` (the script `.github/workflows/package.yml`
+uses for releases), installs it over the previous `dwttm` plugin package the way the plugin does, and checks that
+`install/doinst.sh` ran (new settings file, file modes) and that the old plugin's web files are gone.

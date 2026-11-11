@@ -17,7 +17,7 @@
  * included in all copies or substantial portions of the Software.
  *
  */
-require_once '/usr/local/emhttp/plugins/dwttm/include/dwttm_config.php';
+require_once '/usr/local/emhttp/plugins/ttm2/include/dwttm_config.php';
 
 if(!$dwttm_running) {
     echo("<b>Error: The TTM service is not running (anymore?).</b><br>");
@@ -62,22 +62,22 @@ $currentSession = isset($_GET['session']) ? $_GET['session'] : null;
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>TTerminal</title>
-    <script src="<?=autov('/plugins/dwttm/js/xterm.js');?>"></script>
-    <script src="<?=autov('/plugins/dwttm/js/addon-fit.js');?>"></script>
-    <link type="text/css" rel="stylesheet" href="<?=autov('/plugins/dwttm/css/xterm.css');?>">
-    <link type="text/css" rel="stylesheet" href="<?=autov('/plugins/dwttm/css/dwttm-terminal.css');?>">
+    <script src="<?=autov('/plugins/ttm2/js/xterm.js');?>"></script>
+    <script src="<?=autov('/plugins/ttm2/js/addon-fit.js');?>"></script>
+    <link type="text/css" rel="stylesheet" href="<?=autov('/plugins/ttm2/css/xterm.css');?>">
+    <link type="text/css" rel="stylesheet" href="<?=autov('/plugins/ttm2/css/dwttm-terminal.css');?>">
 </head>
 <body>
     <div id="dwttm-content">
         <?php if ($showGrid): ?>
             <div id="dwttm-dropdown-container">
-                <button id="dwttm-grid-button" title="Show Session Grid" onclick="window.location.href='/plugins/dwttm/tterminal.php?grid'">&#x22EE;&#x22EE;&#x22EE;</button>
+                <button id="dwttm-grid-button" title="Show Session Grid" onclick="window.location.href='/plugins/ttm2/tterminal.php?grid'">&#x22EE;&#x22EE;&#x22EE;</button>
                 <select id="dwttm-session-dropdown"></select>
             </div>
             <div id="dwttm-session-list-container"></div>
         <?php elseif (!$currentSession): ?>
             <div id="dwttm-dropdown-container">
-                <button id="dwttm-grid-button" title="Show Session Grid" onclick="window.location.href='/plugins/dwttm/tterminal.php?grid'">&#x22EE;&#x22EE;&#x22EE;</button>
+                <button id="dwttm-grid-button" title="Show Session Grid" onclick="window.location.href='/plugins/ttm2/tterminal.php?grid'">&#x22EE;&#x22EE;&#x22EE;</button>
                 <select id="dwttm-session-dropdown"></select>
             </div>
             <div class="dwttm-split-container">
@@ -94,7 +94,7 @@ $currentSession = isset($_GET['session']) ? $_GET['session'] : null;
             </div>
         <?php else: ?>
             <div id="dwttm-dropdown-container">
-                <button id="dwttm-grid-button" title="Show Session Grid" onclick="window.location.href='/plugins/dwttm/tterminal.php?grid'">&#x22EE;&#x22EE;&#x22EE;</button>
+                <button id="dwttm-grid-button" title="Show Session Grid" onclick="window.location.href='/plugins/ttm2/tterminal.php?grid'">&#x22EE;&#x22EE;&#x22EE;</button>
                 <select id="dwttm-session-dropdown"></select>
                 <button id="dwttm-new-button" title="New Session" onclick="<?=($dwttm_plus_button_pop === 'named' ? 'createNewNamedSession()' : 'createNewSession()')?>">+</button>
                 <button id="dwttm-rename-button" title="Rename Session" onclick="renameSession()">&#x270E;</button>
@@ -154,7 +154,7 @@ $currentSession = isset($_GET['session']) ? $_GET['session'] : null;
             if(!manuallyInvoked) {
                 clearTimeout(ttimers.fetchSessions);
             }
-            fetch('/plugins/dwttm/include/dwttm_sessions.php')
+            fetch('/plugins/ttm2/include/dwttm_sessions.php')
                 .then(response => response.json())
                 .then(data => {
                     if (data.response) {
@@ -207,7 +207,7 @@ $currentSession = isset($_GET['session']) ? $_GET['session'] : null;
                 clearTimeout(ttimers.fetchSessionsGrid);
             }
 
-            fetch('/plugins/dwttm/include/dwttm_sessions.php')
+            fetch('/plugins/ttm2/include/dwttm_sessions.php')
                 .then(response => response.json())
                 .then(data => {
                     if (data.response) {
@@ -374,14 +374,14 @@ $currentSession = isset($_GET['session']) ? $_GET['session'] : null;
             if(sessionId) {
                 const windowName = `ttm_sess_${sessionId}`;
                 window.open(
-                    `/plugins/dwttm/tterminal.php?session=${encodeURIComponent(sessionId)}`,
+                    `/plugins/ttm2/tterminal.php?session=${encodeURIComponent(sessionId)}`,
                     windowName,
                     `width=${width},height=${height},top=${top},left=${left},popup=yes,scrollbars=no`
                 );
             } else {
                 const windowName = "ttm_rand_" + Math.random().toString(36).substr(2, 9);
                 window.open(
-                    '/plugins/dwttm/tterminal.php',
+                    '/plugins/ttm2/tterminal.php',
                     windowName,
                     `width=${width},height=${height},top=${top},left=${left},popup=yes,scrollbars=no`
                 );
@@ -418,7 +418,7 @@ $currentSession = isset($_GET['session']) ? $_GET['session'] : null;
                 return;
             }
             <?php endif; ?>
-            fetch(`/plugins/dwttm/include/dwttm_close_session.php?session=${encodeURIComponent(session)}`)
+            fetch(`/plugins/ttm2/include/dwttm_close_session.php?session=${encodeURIComponent(session)}`)
                 .then(response => response.json())
                 .then(response => {
                     if (response.success) {
@@ -449,7 +449,7 @@ $currentSession = isset($_GET['session']) ? $_GET['session'] : null;
         }
 
         function createNewSession() {
-            fetch('/plugins/dwttm/include/dwttm_new_session.php', {
+            fetch('/plugins/ttm2/include/dwttm_new_session.php', {
                 method: 'GET',
             })
             .then(response => response.json())
@@ -490,8 +490,8 @@ $currentSession = isset($_GET['session']) ? $_GET['session'] : null;
             }
 
             const fetchUrl = sessionName.trim() !== ""
-            ? `/plugins/dwttm/include/dwttm_new_session.php?session=${encodeURIComponent(sessionName.trim())}`
-            : `/plugins/dwttm/include/dwttm_new_session.php`;
+            ? `/plugins/ttm2/include/dwttm_new_session.php?session=${encodeURIComponent(sessionName.trim())}`
+            : `/plugins/ttm2/include/dwttm_new_session.php`;
 
             fetch(fetchUrl, {
                 method: 'GET',
@@ -536,7 +536,7 @@ $currentSession = isset($_GET['session']) ? $_GET['session'] : null;
                 return;
             }
 
-            fetch(`/plugins/dwttm/include/dwttm_rename_session.php?session=${encodeURIComponent(session)}&sessionName=${encodeURIComponent(sessionName.trim())}`, {
+            fetch(`/plugins/ttm2/include/dwttm_rename_session.php?session=${encodeURIComponent(session)}&sessionName=${encodeURIComponent(sessionName.trim())}`, {
                 method: 'GET',
             })
             .then(response => response.json())
@@ -598,7 +598,7 @@ $currentSession = isset($_GET['session']) ? $_GET['session'] : null;
 
         function fetchSessionMouse(sessionId) {
             const mouseButton = document.getElementById('dwttm-mouse-button');
-            fetch(`/plugins/dwttm/include/dwttm_mouse_session.php?session=${encodeURIComponent(sessionId)}`)
+            fetch(`/plugins/ttm2/include/dwttm_mouse_session.php?session=${encodeURIComponent(sessionId)}`)
                 .then(response => response.json())
                 .then(response => {
                     if (response.mouse) {
@@ -631,7 +631,7 @@ $currentSession = isset($_GET['session']) ? $_GET['session'] : null;
 
         function setSessionMouse(sessionId, requestedMouse) {
             const mouseButton = document.getElementById('dwttm-mouse-button');
-            fetch(`/plugins/dwttm/include/dwttm_mouse_session.php?session=${encodeURIComponent(sessionId)}&mouse=${encodeURIComponent(requestedMouse)}`)
+            fetch(`/plugins/ttm2/include/dwttm_mouse_session.php?session=${encodeURIComponent(sessionId)}&mouse=${encodeURIComponent(requestedMouse)}`)
                 .then(response => response.json())
                 .then(response => {
                     if (response.newmouse) {

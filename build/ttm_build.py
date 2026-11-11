@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
-"""Build the tmux and reptyr Slackware packages in a mapped-UID sandbox and verify them inside exact Unraid roots.
+"""Build the tmux and reptyr Slackware packages in a mapped-UID sandbox and verify them, and the plugin package built from source/,
+inside exact Unraid roots.
 
 Adapted from andrebrait/NUT-unRAID build/nut_build.py. Reuses NerdTools' pinned bootstrap/sandbox modules (same
 commit as the unraid-build-root action); set NERDTOOLS to that checkout. Requires a disposable Linux x86_64 runner
@@ -9,6 +10,7 @@ import argparse
 import json
 import os
 from pathlib import Path
+import re
 import shutil
 import subprocess
 import sys
@@ -24,6 +26,18 @@ from sandbox import mapped_root, run_sandbox  # noqa: E402
 
 ENV = {"PATH": "/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
        "HOME": "/root", "LC_ALL": "C", "TZ": "UTC", "TERM": "xterm"}
+
+
+PLUGIN_CHECK = """set -ex
+test -f /usr/local/emhttp/plugins/@ID@/dwTTM.page
+test ! -e /usr/local/emhttp/plugins/@OLD@
+test -x /usr/bin/ttmd
+test -x /etc/rc.d/rc.ttmd
+test -x /usr/local/emhttp/plugins/@ID@/scripts/start
+test -x /usr/local/emhttp/plugins/@ID@/event/stopping_svcs
+test "$(stat -c %a /etc/logrotate.d/ttmd)" = 644
+grep -q '^SERVICE=' /boot/config/plugins/@ID@/@ID@.cfg
+"""
 
 
 def package_file(package):
@@ -99,25 +113,43 @@ def verify(args):
         for archive in archives:
             shutil.copyfile(archive, staged / archive.name)
         previous = [REPO / package["previous"] for package in LOCK["packages"]]
+        # The plugin package is packed from source/ by the same script the release workflow uses.
+        plugin = LOCK["plugin"]
+        plg = (REPO / f"plugin/{plugin['id']}.plg").read_text()
+        plugin_version = re.search(r'<!ENTITY version\s+"([^"]+)"', plg).group(1)
+        plugin_name = subprocess.run([REPO / "build/package-plugin.sh", plugin_version, staged], check=True,
+                                     capture_output=True, text=True).stdout.strip()
+        plugin_new = staged / f"{plugin_name}.txz"
+        plugin_old = REPO / plugin["previous"]
+        previous.append(plugin_old)
+        archives_all = [*archives, plugin_new]
         for archive in previous:
             shutil.copyfile(archive, staged / archive.name)
         failures = []
         with mapped_root(root):
+            # The plugin's flash directories exist on a box before its packages are installed (the .plg downloads into them).
+            run_sandbox(root, ["/bin/mkdir", "-p", f"/boot/config/plugins/{plugin['name']}", f"/boot/config/plugins/{plugin['id']}"],
+                        ENV, timeout=60)
             # Start from the desertwitch packages a plugin upgrade finds installed, then upgrade exactly as the plugin does.
             run_sandbox(root, ["/sbin/upgradepkg", "--install-new", *(f"/tmp/ttm-packages/{a.name}" for a in previous)],
                         ENV, timeout=600)
             # Same command the plugin runs on the box, including package install scripts.
-            run_sandbox(root, ["/sbin/upgradepkg", "--install-new", *(f"/tmp/ttm-packages/{a.name}" for a in archives)],
+            run_sandbox(root, ["/sbin/upgradepkg", "--install-new", *(f"/tmp/ttm-packages/{a.name}" for a in archives_all)],
                         ENV, timeout=600)
             # upgradepkg skips a package whose build/tag sorts below the installed one, so assert it really replaced the old one.
             ok, installed = check(root, ["/bin/ls", "/var/log/packages"])
             print(f"== /var/log/packages\n{installed}", end="")
-            for archive in archives:
+            for archive in archives_all:
                 if archive.stem not in installed.split():
                     failures.append(f"upgrade to {archive.stem}")
             for archive in previous:
                 if archive.stem in installed.split():
                     failures.append(f"old {archive.stem} still installed")
+            # install/doinst.sh ran (it creates the new settings file and sets modes) and the old plugin's files are gone.
+            ok, output = check(root, ["/bin/bash", "-c", PLUGIN_CHECK.replace("@ID@", plugin["id"]).replace("@OLD@", plugin["name"])])
+            print(f"== plugin package\n{output}", end="")
+            if not ok:
+                failures.append("plugin package")
             # ld.so resolves the transitive closure and symbol versions against the target's own libraries.
             for archive in archives:
                 for path in elf_members(archive, root):
@@ -139,7 +171,7 @@ def verify(args):
         if failures:
             raise ValueError(f"Unraid {args.target} verification failed: {failures}")
     print(f"Verified {', '.join(a.name for a in archives)} on Unraid {args.target}: "
-          "ELF closure resolved, smoke commands and detached session passed.")
+          "plugin package installed, ELF closure resolved, smoke commands and detached session passed.")
 
 
 def main():
