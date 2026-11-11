@@ -38,6 +38,16 @@ jobs:
           path: .nerdtools
           sparse-checkout: build
           persist-credentials: false
+      - name: Configure mapped sandbox identities
+        run: |
+          # Runner mirrors occasionally fail to resolve; retry instead of failing the whole run.
+          for attempt in 1 2 3 4 5; do
+            sudo apt-get update || true
+            sudo apt-get install --no-install-recommends --yes bubblewrap uidmap && break
+            [[ $attempt -lt 5 ]] || exit 1
+            sleep 30
+          done
+          sudo usermod --add-subuids 100000-165535 --add-subgids 100000-165535 root
       - name: Read the build baseline pins
         id: baseline
         run: |
@@ -52,16 +62,6 @@ jobs:
           sha256: ${{ steps.baseline.outputs.sha256 }}
           bzroot-sha256: ${{ steps.baseline.outputs.bzroot }}
           toolchain-lock: build/locks/toolchain.json
-      - name: Configure mapped sandbox identities
-        run: |
-          # Runner mirrors occasionally fail to resolve; retry instead of failing the whole run.
-          for attempt in 1 2 3 4 5; do
-            sudo apt-get update || true
-            sudo apt-get install --no-install-recommends --yes bubblewrap uidmap && break
-            [[ $attempt -lt 5 ]] || exit 1
-            sleep 30
-          done
-          sudo usermod --add-subuids 100000-165535 --add-subgids 100000-165535 root
       - name: Build tmux and reptyr in the sandboxed development root (no network)
         env:
           DEVELOPMENT_ROOT: ${{ steps.roots.outputs.development-root }}
