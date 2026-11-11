@@ -26,6 +26,19 @@
     }
   },
   {
+    "name": "gcc-g++",
+    "url": "https://slackware.uk/cumulative/slackware64-current/slackware64/d/gcc-g++-16.2.0-x86_64-2.txz",
+    "file": "gcc-g++-16.2.0-x86_64-2.txz",
+    "sha256": "09354f14cf569ea72f73b488e935ed73ab9ee9c8014e0f0b65ce53841a6be2e5",
+    "provenance": {
+      "kind": "upstream-binary",
+      "url": "https://www.slackware.com/gpg-key",
+      "revision": "EC5649DA401E22ABFA6736EF6A4463C040102233",
+      "checksum_manifest_sha256": "3633a700605516088e4a6202735e8e093a4cea10d8c41e383cb268c88613f48a",
+      "checksum_md5": "6e1779b614b3b20c81e1f68704acb28c"
+    }
+  },
+  {
     "name": "glibc",
     "url": "https://slackware.uk/cumulative/slackware64-current/slackware64/l/glibc-2.44-x86_64-7.txz",
     "file": "glibc-2.44-x86_64-7.txz",
