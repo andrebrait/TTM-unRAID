@@ -8,6 +8,6 @@ out=$(realpath "$2")
 pkg="dwttm-${version}-x86_64-1"
 cd "$(dirname "$0")/.."
 # installpkg only runs install/doinst.sh when members are named like makepkg's ("install/...", not "./install/...").
-tar -C source --owner=0 --group=0 --sort=name --transform='s,^\./\(.\),\1,' -cJf "$out/${pkg}.txz" .
+tar -C source --owner=0 --group=0 --mode='u+rwX,go+rX,go-w' --sort=name --transform='s,^\./\(.\),\1,' -cJf "$out/${pkg}.txz" .
 tar -tJf "$out/${pkg}.txz" | grep -qx 'install/doinst.sh'
 echo "$pkg"
