@@ -1,6 +1,6 @@
 Menu="Utilities"
 Type="xmenu"
-Title="Tmux Manager (TTM)"
+Title="Tmux Terminal Manager (TTM) v2"
 Icon="tty"
 Tag="tty"
 Markdown="false"
@@ -1271,7 +1271,7 @@ $(function() {
         term.write("\t\t                          \r\n");
         term.write("\t\t    #### ###  ###  ###    \r\n");
         term.write("\t\t    ###. ###  ###  ###    \r\n");
-        term.write("\r\n\t/ Tmux Terminal Manager (TTM) for UNRAID /\r\n\r\n");
+        term.write("\r\n\t/ Tmux Terminal Manager (TTM) v2 for UNRAID /\r\n\r\n");
         term.write("\x1b[3;38;2;200;200;200m\t\t Please scroll down and create or select a terminal...\r\n\r\n\x1b[0m");
 
         fetchSessions();
@@ -1284,7 +1284,7 @@ $(function() {
     }
 
     if ( typeof caPluginUpdateCheck === "function" ) {
-        caPluginUpdateCheck("ttm2.plg",{name:"TTM v2 (Tmux Terminal Manager)"});
+        caPluginUpdateCheck("ttm2.plg",{name:"Tmux Terminal Manager (TTM) v2"});
     }
 });
 </script>

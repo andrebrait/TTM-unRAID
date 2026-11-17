@@ -1,8 +1,8 @@
 <div align="center">
 
-<img src="docs/assets/logo.svg" alt="TTM v2 logo" width="150">
+<img src="docs/assets/logo.svg" alt="Tmux Terminal Manager (TTM) v2 logo" width="150">
 
-<h1>TTM v2 (Tmux Terminal Manager)</h1>
+<h1>Tmux Terminal Manager (TTM) v2</h1>
 
 <p><strong>Tmux for people who don&#39;t do Tmux, integrated into <a href="https://unraid.net/">Unraid</a>.</strong></p>
 
@@ -16,7 +16,7 @@
 
 ## Fork notice
 
-TTM v2 is a maintained fork of [desertwitch/TTM-unRAID](https://github.com/desertwitch/TTM-unRAID) by desertwitch, who wrote the plugin (original [forum thread](https://forums.unraid.net/topic/183427-plugin-tmux-terminal-manager-ttm/)). Upstream has announced its end of support, so this fork carries on maintaining the plugin and publishes its own releases.
+Tmux Terminal Manager (TTM) v2 is a maintained fork of [desertwitch/TTM-unRAID](https://github.com/desertwitch/TTM-unRAID) by desertwitch, who wrote the plugin (original [forum thread](https://forums.unraid.net/topic/183427-plugin-tmux-terminal-manager-ttm/)). Upstream has announced its end of support, so this fork carries on maintaining the plugin and publishes its own releases.
 
 The plugin is named `ttm2` (previously `dwttm`) so it does not clash with the original in Community Applications.
 

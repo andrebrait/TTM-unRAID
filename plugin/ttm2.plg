@@ -3,22 +3,24 @@
 <!DOCTYPE PLUGIN [
 <!ENTITY name      "ttm2">
 <!ENTITY author    "andrebrait">
-<!ENTITY version   "2026.11.11">
+<!ENTITY version   "2026.11.17">
 <!ENTITY launch    "Settings/dwTTM">
 <!ENTITY gitURL    "https://raw.githubusercontent.com/andrebrait/TTM-unRAID/main">
 <!ENTITY pluginURL "&gitURL;/plugin/&name;.plg">
 <!ENTITY pkgURL    "&gitURL;/packages">
 <!ENTITY plgPATH   "/boot/config/plugins/&name;">
 <!ENTITY oldName   "dwttm">
-<!ENTITY plgNAME   "dwttm-2026.11.11-x86_64-1">
-<!ENTITY plgMD5    "30f940612345ffb2bb66edbddf357005">
+<!ENTITY plgNAME   "dwttm-2026.11.17-x86_64-1">
+<!ENTITY plgMD5    "1c0f2acc3c4b1ed0ac00acf3c91ee6ac">
 <!ENTITY emhttp    "/usr/local/emhttp/plugins/&name;">
 ]>
 
 <PLUGIN name="&name;" author="&author;" version="&version;" launch="&launch;" pluginURL="&pluginURL;" support="https://github.com/andrebrait/TTM-unRAID/issues" min="7.3.4" icon="tty">
 
 <CHANGES>
-## TTM v2 (Tmux Terminal Manager)
+## Tmux Terminal Manager (TTM) v2
+###2026.11.17
+- display name is Tmux Terminal Manager (TTM) v2
 ###2026.11.11
 - installs tmux 3.5a and reptyr 0.10.0, both built from source in GitHub Actions instead of prebuilt binaries (tmux from the Slackware tmux SlackBuild by Patrick J. Volkerding, reptyr from the SlackBuilds.org reptyr SlackBuild by B. Watson)
 - renamed to TTM v2 (Tmux Terminal Manager), plugin name ttm2; it replaces the dwttm plugin, from desertwitch or this fork, and moves your settings from dwttm.cfg to ttm2.cfg
@@ -209,7 +211,7 @@ fi
 
 echo ""
 echo "----------------------------------------------------------------"
-echo " TTM v2 (Tmux Terminal Manager) has been installed."
+echo " Tmux Terminal Manager (TTM) v2 has been installed."
 echo " Version: &version; / Plugin Maintainer: &author;"
 echo "----------------------------------------------------------------"
 echo ""
@@ -260,7 +262,7 @@ rm -f /etc/cron.daily/dwttm-poller >/dev/null 2>&amp;1
 
 echo ""
 echo "----------------------------------------------------------------"
-echo " TTM v2 (Tmux Terminal Manager) has been removed."
+echo " Tmux Terminal Manager (TTM) v2 has been removed."
 echo " Version: &version; / Plugin Maintainer: &author;"
 echo "----------------------------------------------------------------"
 echo ""
