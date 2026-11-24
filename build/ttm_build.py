@@ -36,6 +36,7 @@ test -x /etc/rc.d/rc.ttmd
 test -x /usr/local/emhttp/plugins/@ID@/scripts/start
 test -x /usr/local/emhttp/plugins/@ID@/event/stopping_svcs
 test "$(stat -c %a /etc/logrotate.d/ttmd)" = 644
+test "$(stat -c %a /)" = 755
 grep -q '^SERVICE=' /boot/config/plugins/@ID@/@ID@.cfg
 """
 

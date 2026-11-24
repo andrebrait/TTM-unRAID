@@ -20,7 +20,7 @@
 <CHANGES>
 ## Tmux Terminal Manager (TTM) v2
 ###2026.11.24
-- fix: 2026.11.17 set the permissions of / to 0700 on every install and boot, which locked every non-root process out of the filesystem (logrotate, for one, failed with "stat of /var/log/nginx/error.log failed: Permission denied"); this version restores them on install
+- fix: 2026.11.17 could set / and the other directories it installs into to 0700 on every install and boot, which locked every non-root process out of the filesystem (logrotate, for one, failed with "stat of /var/log/nginx/error.log failed: Permission denied"); this version restores them on install
 ###2026.11.17
 - display name is Tmux Terminal Manager (TTM) v2
 ###2026.11.11
