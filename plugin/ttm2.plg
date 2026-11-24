@@ -3,15 +3,15 @@
 <!DOCTYPE PLUGIN [
 <!ENTITY name      "ttm2">
 <!ENTITY author    "andrebrait">
-<!ENTITY version   "2026.11.17">
+<!ENTITY version   "2026.11.24">
 <!ENTITY launch    "Settings/dwTTM">
 <!ENTITY gitURL    "https://raw.githubusercontent.com/andrebrait/TTM-unRAID/main">
 <!ENTITY pluginURL "&gitURL;/plugin/&name;.plg">
 <!ENTITY pkgURL    "&gitURL;/packages">
 <!ENTITY plgPATH   "/boot/config/plugins/&name;">
 <!ENTITY oldName   "dwttm">
-<!ENTITY plgNAME   "dwttm-2026.11.17-x86_64-1">
-<!ENTITY plgMD5    "1c0f2acc3c4b1ed0ac00acf3c91ee6ac">
+<!ENTITY plgNAME   "dwttm-2026.11.24-x86_64-1">
+<!ENTITY plgMD5    "8a61f20c7852d8d402da96a7002c1ba1">
 <!ENTITY emhttp    "/usr/local/emhttp/plugins/&name;">
 ]>
 
@@ -19,6 +19,8 @@
 
 <CHANGES>
 ## Tmux Terminal Manager (TTM) v2
+###2026.11.24
+- fix: 2026.11.17 set the permissions of / to 0700 on every install and boot, which locked every non-root process out of the filesystem (logrotate, for one, failed with "stat of /var/log/nginx/error.log failed: Permission denied"); this version restores them on install
 ###2026.11.17
 - display name is Tmux Terminal Manager (TTM) v2
 ###2026.11.11
